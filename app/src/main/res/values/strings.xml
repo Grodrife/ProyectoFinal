@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ProyectoFinal</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="api_key" translatable="false">b0ddfe07dbmsh6daab3b699a1969p16482djsnc2b19a757cd4</string>
+</resources>

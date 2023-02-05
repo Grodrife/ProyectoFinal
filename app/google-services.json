@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187898646731",
+    "project_id": "proyectofinal-b9250",
+    "storage_bucket": "proyectofinal-b9250.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187898646731:android:f7aca988422c70045ccb4e",
+        "android_client_info": {
+          "package_name": "com.gabrielrf.proyectofinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187898646731-4km62na1daigaievuhl7hajg7qqtb3me.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-DjBouvngAVxaCPsyhm4shxW3AAD3CCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187898646731-4km62na1daigaievuhl7hajg7qqtb3me.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
