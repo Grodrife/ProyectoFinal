@@ -73,7 +73,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Usuario o contraseña incorrecto"
                 android:textColor="#9C0101"
                 android:textSize="14sp"
                 android:visibility="gone"

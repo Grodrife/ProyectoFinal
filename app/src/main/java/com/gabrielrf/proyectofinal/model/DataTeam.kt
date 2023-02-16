@@ -1,5 +1,9 @@
 package com.gabrielrf.proyectofinal.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class DataTeam(
     val abbreviation: String,
     val city: String,
@@ -8,4 +12,6 @@ data class DataTeam(
     val full_name: String,
     val id: Int,
     val name: String
-)
+): Parcelable, java.io.Serializable{
+    constructor() : this("","","","","",0,"")
+}

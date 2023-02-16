@@ -14,11 +14,11 @@ interface RemoteService {
 
     @Headers("x-rapidapi-key: b0ddfe07dbmsh6daab3b699a1969p16482djsnc2b19a757cd4")
     @GET("players")
-    suspend fun getPlayers(): Player
+    suspend fun getPlayers(@Query("per_page") per_page: Int): Player
 
     @Headers("x-rapidapi-key: b0ddfe07dbmsh6daab3b699a1969p16482djsnc2b19a757cd4")
     @GET("games")
-    suspend fun getGames(@Query("seasons[]") season: Array<String>): Game
+    suspend fun getGames(@Query("seasons[]") season: Array<String>, @Query("per_page") per_page: Int): Game
 
     @Headers("x-rapidapi-key: b0ddfe07dbmsh6daab3b699a1969p16482djsnc2b19a757cd4")
     @GET("games")

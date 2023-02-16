@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/fondo_aplicacion"
     android:orientation="vertical"
-    tools:context=".ui.main.TeamActivity">
+    tools:context=".ui.main.team.TeamActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

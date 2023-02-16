@@ -25,9 +25,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.TeamActivity">
-
+            android:name=".ui.main.team.TeamActivity">
         </activity>
+        <activity android:name=".ui.main.team.TeamDetailActivity"></activity>
 
     </application>
 
