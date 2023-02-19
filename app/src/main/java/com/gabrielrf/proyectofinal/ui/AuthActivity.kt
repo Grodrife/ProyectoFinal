@@ -1,4 +1,4 @@
-package com.gabrielrf.proyectofinal
+package com.gabrielrf.proyectofinal.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.gabrielrf.proyectofinal.R
 import com.gabrielrf.proyectofinal.model.server.RemoteConnection
-import com.gabrielrf.proyectofinal.ui.main.team.TeamActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AuthActivity : AppCompatActivity() {
 
@@ -19,19 +24,19 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
+        setContentView(R.layout.fragment_auth)
 
         val loginButton = findViewById<Button>(R.id.botonAceptar)
         val createButton = findViewById<Button>(R.id.botonNuevaCuenta)
         val errorTextView = findViewById<TextView>(R.id.textError)
 
-         /*GlobalScope.launch(Dispatchers.Main) {
-             async(Dispatchers.IO){
-                 loadDataTeam()
-                 loadDataPlayers()
-                 loadDataGames()
-             }
-         }*/
+        GlobalScope.launch(Dispatchers.Main) {
+            async(Dispatchers.IO){
+                loadDataTeam()
+                loadDataPlayers()
+                loadDataGames()
+            }
+        }
 
         loginButton.setOnClickListener {
             val username = findViewById<EditText>(R.id.usuario).text.toString()
@@ -47,7 +52,7 @@ class AuthActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(this, TeamActivity::class.java)
+                            val intent = Intent(this, MenuActivity::class.java)
                             startActivity(intent)
                         } else {
                             errorTextView.text = "Usuario o contraseña incorrecto"
@@ -72,7 +77,7 @@ class AuthActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             usuario()
-                            val intent = Intent(this, TeamActivity::class.java)
+                            val intent = Intent(this, MenuActivity::class.java)
                             startActivity(intent)
                         } else {
                             errorTextView.text = "Este correo ya está vinculado"
@@ -96,25 +101,25 @@ class AuthActivity : AppCompatActivity() {
     }
 
     suspend fun loadDataTeam() {
-            val datosEquipos = RemoteConnection.service.getTeams()
-            for (it in datosEquipos.team) {
-                db.collection("teams").document(it.id.toString())
-                    .set(
-                        hashMapOf(
-                            "abbreviation" to it.abbreviation,
-                            "city" to it.city,
-                            "conference" to it.conference,
-                            "division" to it.division,
-                            "full_name" to it.full_name,
-                            "id" to it.id,
-                            "name" to it.name
-                        )
+        val datosEquipos = RemoteConnection.service.getTeams()
+        for (it in datosEquipos.team) {
+            db.collection("teams").document(it.id.toString())
+                .set(
+                    hashMapOf(
+                        "abbreviation" to it.abbreviation,
+                        "city" to it.city,
+                        "conference" to it.conference,
+                        "division" to it.division,
+                        "full_name" to it.full_name,
+                        "id" to it.id,
+                        "name" to it.name
                     )
-            }
+                )
+        }
     }
 
     suspend fun loadDataPlayers() {
-        val datosJugadores = RemoteConnection.service.getPlayers(100)
+        val datosJugadores = RemoteConnection.service.getPlayers("75")
         for (it in datosJugadores.player) {
             if (!it.position.isNullOrBlank()){
                 db.collection("players").document(it.id.toString())
@@ -135,12 +140,14 @@ class AuthActivity : AppCompatActivity() {
     }
 
     suspend fun loadDataGames() {
-        val datosPartidos = RemoteConnection.service.getGames(arrayOf("2022"),100)
+        val datosPartidos = RemoteConnection.service.getGames(arrayOf("2022"),"75")
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         for (it in datosPartidos.game) {
             db.collection("games").document(it.id.toString())
                 .set(
                     hashMapOf(
-                        "date" to it.date,
+                        "date" to outputFormat.format(inputFormat.parse(it.date)),
                         "home_team" to it.home_team,
                         "home_team_score" to it.home_team_score,
                         "id" to it.id,

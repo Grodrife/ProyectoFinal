@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/fondo_aplicacion"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="ui.main.game.GameFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gamerecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/match_view">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/match_view"/>
 </FrameLayout>

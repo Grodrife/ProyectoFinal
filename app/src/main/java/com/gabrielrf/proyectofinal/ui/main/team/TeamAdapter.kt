@@ -2,20 +2,19 @@ package com.gabrielrf.proyectofinal.ui.main.team
 
 import android.content.Context
 import android.content.Intent
-import android.os.Parcelable
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gabrielrf.proyectofinal.R
 import com.gabrielrf.proyectofinal.databinding.TeamViewBinding
-import com.gabrielrf.proyectofinal.model.DataPlayer
 import com.gabrielrf.proyectofinal.model.DataTeam
-import com.gabrielrf.proyectofinal.ui.main.player.PlayerAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
-class TeamAdapter(private val teams: MutableList<DataTeam>): RecyclerView.Adapter<TeamAdapter.ViewHolder>() {
+class TeamAdapter(private val teams: MutableList<DataTeam>, private val fragmentManager: FragmentManager): RecyclerView.Adapter<TeamAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 
@@ -37,16 +36,31 @@ class TeamAdapter(private val teams: MutableList<DataTeam>): RecyclerView.Adapte
 
         fun bind(team: DataTeam){
             binding.textView2.text = team.name
-            Glide.with(binding.imageView3).load("https://assets.stickpng.com/images/58428defa6515b1e0ad75ab4.png").into(binding.imageView3)
+            var logo = ""
+                FirebaseFirestore.getInstance().collection("logos").document(team.id.toString()).get().addOnSuccessListener { document ->
+                    logo = document.data?.get("logo") as String
+                    Glide.with(binding.imageView3).load(logo).into(binding.imageView3)
+                }
+
+
+
 
             itemView.setOnClickListener {
-                val intentTeam = Intent(context, TeamDetailActivity::class.java)
-                intentTeam.putExtra("team_name", team.full_name)
-                intentTeam.putExtra("team_division", team.division)
-                intentTeam.putExtra("team_conference", team.conference)
-                intentTeam.putExtra("team_id", team.id)
-                //intentTeam.putExtra("team", team)
-                context.startActivity(intentTeam)
+                val fragment = TeamDetailFragment()
+                val bundle = Bundle()
+                bundle.putString("team_name", team.full_name)
+                bundle.putString("team_division", team.division)
+                bundle.putString("team_conference", team.conference)
+                bundle.putInt("team_id", team.id)
+                bundle.putString("team_logo", logo)
+
+                //bundle.putParcelable("team", team)
+                fragment.arguments = bundle
+
+                fragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment_content_main, fragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         }
     }

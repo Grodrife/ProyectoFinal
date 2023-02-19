@@ -11,7 +11,8 @@ data class DataTeam(
     val division: String,
     val full_name: String,
     val id: Int,
-    val name: String
+    val name: String,
+    val logo: String
 ): Parcelable, java.io.Serializable{
-    constructor() : this("","","","","",0,"")
+    constructor() : this("","","","","",0,"","")
 }

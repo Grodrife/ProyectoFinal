@@ -14,7 +14,7 @@
         android:theme="@style/Theme.ProyectoFinal"
         tools:targetApi="31">
         <activity
-            android:name=".AuthActivity"
+            android:name=".ui.AuthActivity"
             android:exported="true"
             android:label="@string/title_activity_main2"
             android:theme="@style/Theme.ProyectoFinal.NoActionBar">
@@ -24,10 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.MenuActivity" android:theme="@style/Theme.ProyectoFinal.NoActionBar"></activity>
         <activity
-            android:name=".ui.main.team.TeamActivity">
+            android:name=".ui.main.team.TeamFragment" android:theme="@style/Theme.ProyectoFinal.NoActionBar">
         </activity>
-        <activity android:name=".ui.main.team.TeamDetailActivity"></activity>
+        <activity android:name=".ui.main.team.TeamDetailFragment" android:theme="@style/Theme.ProyectoFinal.NoActionBar"/>
 
     </application>
 
